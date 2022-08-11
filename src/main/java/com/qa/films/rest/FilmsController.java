@@ -1,10 +1,12 @@
 package com.qa.films.rest;
 
-//import java.util.ArrayList;
 import java.util.List;
 
 import javax.websocket.server.PathParam;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -25,14 +27,14 @@ public class FilmsController {
 	
 	private FilmService service;
 	
-//	private List<Film> films;
-	
-//	public FilmsController() {
-//		super();
-//		this.films = new ArrayList<>();
-//		this.films.add(new Film("LOTR", 15.50, "Fantasy"));
-//	}
 
+	@Autowired
+	public FilmsController(FilmService service) {
+	super();
+	this.service = service;
+	}
+
+	
 	
 	@GetMapping("/hello")
 	public String greeting() {
@@ -41,54 +43,39 @@ public class FilmsController {
 		
 		// CREATE
 	@PostMapping("/createFilm")
-	public Film makeMovie(@RequestBody Film film) {
+	public ResponseEntity<Film> makeMovie(@RequestBody Film film) {
 		System.out.println("Body: " + film);
-//		this.films.add(film);
-//		return films.get(this.films.size() -1);
-		return this.service.makeMovie(film);
+		return new ResponseEntity<Film>(this.service.makeMovie(film), HttpStatus.CREATED);
 	}
 	
 		// GENERIC TERM FOR @GetMapping
 	@RequestMapping(method = RequestMethod.GET, path = "/getAll")
 	public List<Film> getAllFilms() {
-//		return this.films;
 		return this.service.getAllFilms();
 	}
 	
-//		// GET
-//	@GetMapping("/getAll")
-//	public List<Film> getAllFilms() {
-//		return this.films;
-//		
-//	}
 	
 	@GetMapping("/get/{id}")
-	public Film getById(@PathVariable int id) {
+	public ResponseEntity<Film> getById(@PathVariable int id) {
 		System.out.println("ID: " + id);
-//		return this.films.get(id);
-		return this.service.getById(id);
+		return new ResponseEntity<Film>(this.service.getById(id), HttpStatus.OK);
 	}
 	
 	@PatchMapping("/update/{id}")
-	public Film updateFilm(@PathVariable int id, @PathParam("name") String name, 
+	public ResponseEntity<Film> updateFilm(@PathVariable int id, @PathParam("name") String name, 
 			@PathParam("cost") Double cost, @PathParam("genre") String genre) {
 		System.out.println("ID: " + id);
 		System.out.println("NAME: " + name);
 		System.out.println("COST: " + cost);
 		System.out.println("GENRE: " + genre);
-//			Film toUpdate = this.films.get(id);
-//		if (name != null && name.isBlank()) toUpdate.setName(name);
-//		if (cost != null) toUpdate.setCost(cost);
-//		if (genre != null && genre.isBlank()) toUpdate.setGenre(genre);
-		
-//		return toUpdate;
-		return this.service.updateFilm(id, name, cost, genre);
+
+		return new ResponseEntity<Film>(this.service.updateFilm(id, name, cost, genre), HttpStatus.OK);
+
 	}
 	
 	@DeleteMapping("/remove/{id}")
 	public void delete(@PathVariable int id) {
 		System.out.println("ID: " + id);
-//		this.films.remove(id);
 		this.service.delete(id);
 	}
 		

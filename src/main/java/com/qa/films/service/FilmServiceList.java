@@ -1,5 +1,6 @@
 package com.qa.films.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -17,12 +18,6 @@ public class FilmServiceList implements FilmService{
 		this.films.add(new Film("LOTR", 15.50, "Fantasy"));
 	}
 
-
-//	@Override
-//	public String greeting() {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
 
 	@Override
 	public Film makeMovie(Film film) {
@@ -57,5 +52,6 @@ public class FilmServiceList implements FilmService{
 		this.films.remove(id);
 		
 	}
+
 
 }

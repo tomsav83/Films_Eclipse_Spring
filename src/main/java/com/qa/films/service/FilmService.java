@@ -5,9 +5,6 @@ import java.util.List;
 import com.qa.films.domain.Film;
 
 public interface FilmService {
-	
-	
-     String greeting();
 		
 	
 	 Film makeMovie(Film film);
